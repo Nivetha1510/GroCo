@@ -18,7 +18,7 @@ export default function Payment() {
     items, subtotal, shipping, total, clearCart,
     couponValid, discountPercent: couponDiscountPercent, discountAmount: couponDiscountAmount,
   } = useCart();
-  const { shipping: address, placeOrder } = useOrder();
+  const { shipping: address, placeOrder, clearShipping } = useOrder();
   const navigate = useNavigate();
   const paymentMethod = address.paymentOption || 'card';
 
@@ -69,6 +69,7 @@ export default function Payment() {
       ...extra,
     });
     clearCart();
+    clearShipping();
     navigate('/confirmation');
   };
 

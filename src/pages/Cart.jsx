@@ -22,10 +22,10 @@ export default function Cart() {
   return (
     <div className="cart">
       <div className="cart__inner">
-        <h1 className="cart__title">+ Card</h1>
+        <h1 className="cart__title">+ Cart</h1>
 
         {items.length === 0 ? (
-          <p className="cart__empty">Your card is empty.</p>
+          <p className="cart__empty">Your cart is empty.</p>
         ) : (
           <ul className="cart__list">
             {items.map((item) => (

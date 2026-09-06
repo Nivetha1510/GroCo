@@ -13,6 +13,7 @@ import Search from './pages/Search';
 import BlogPost from './pages/BlogPost';
 import Checkout from './pages/Checkout';
 import Payment from './pages/Payment';
+import RequirePayment from './components/RequirePayment';
 import Confirmation from './pages/Confirmation';
 import OrderTracking from './pages/OrderTracking';
 import Support from './pages/Support';
@@ -35,7 +36,14 @@ export default function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/blog/:id" element={<BlogPost />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/payment" element={<Payment />} />
+        <Route
+          path="/payment"
+          element={(
+            <RequirePayment>
+              <Payment />
+            </RequirePayment>
+          )}
+        />
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/tracking" element={<OrderTracking />} />
         <Route path="/support" element={<Support />} />
