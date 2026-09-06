@@ -1,0 +1,115 @@
+.footer {
+  background: var(--band);
+  padding: 78px 0 90px;
+}
+
+.footer__inner {
+  display: grid;
+  grid-template-columns: 340px 260px 220px 260px;
+  gap: 60px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 54px;
+}
+
+.footer__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 20px;
+  font-size: 21px;
+  font-weight: 600;
+  color: var(--brand-green);
+}
+.footer__brand-icon { color: var(--accent-strong); }
+
+.footer__text {
+  margin: 0 0 30px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #3b3b3b;
+  white-space: pre-line;
+}
+
+.footer__socials { display: flex; gap: 12px; }
+.footer__social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: #efe1da;
+  color: var(--brand-green);
+  font-size: 15px;
+  transition: background .15s ease, color .15s ease;
+}
+.footer__social:hover { background: var(--accent); color: #fff; }
+
+.footer__heading {
+  margin: 0 0 24px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--brand-green);
+}
+
+.footer__list { display: flex; flex-direction: column; gap: 16px; }
+
+.footer__contact {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #3b3b3b;
+}
+.footer__contact svg { color: var(--accent-strong); font-size: 15px; flex: none; }
+
+.footer__link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: #3b3b3b;
+}
+.footer__link svg { color: var(--accent-strong); }
+.footer__link:hover { color: var(--accent-strong); }
+
+.footer__sub { margin: 0 0 18px; font-size: 15px; color: #3b3b3b; }
+
+.footer__input {
+  width: 100%;
+  height: 42px;
+  padding: 0 16px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: #f7e6df;
+  font-size: 14px;
+  color: #3b3b3b;
+}
+.footer__input::placeholder { color: #7a6a63; }
+
+.footer__subscribe {
+  margin-top: 14px;
+  padding: 6px 16px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background: #fff;
+  font-size: 11px;
+  font-weight: 500;
+}
+.footer__subscribe:hover { background: #000; color: #fff; }
+
+.footer__ok { margin: 10px 0 0; font-size: 13px; color: var(--brand-green); }
+
+@media (max-width: 1279px) {
+  .footer__inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 48px;
+    padding: 0 32px;
+  }
+}
+
+@media (max-width: 767px) {
+  .footer { padding: 52px 0 60px; }
+  .footer__inner { grid-template-columns: minmax(0, 1fr); gap: 40px; padding: 0 18px; }
+}

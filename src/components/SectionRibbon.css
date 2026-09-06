@@ -1,0 +1,46 @@
+.ribbon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 90px;
+}
+
+.ribbon__lead {
+  font-size: 44px;
+  font-weight: 700;
+  color: var(--brand-green);
+  line-height: 1;
+}
+
+.ribbon__banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 363px;
+  height: 100px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 28px;
+  font-weight: 600;
+  clip-path: polygon(
+    0 0,
+    10.7% 55%,
+    0 100%,
+    100% 100%,
+    89.3% 55%,
+    100% 0
+  );
+}
+
+@media (max-width: 1023px) {
+  .ribbon { margin-bottom: 56px; }
+  .ribbon__lead { font-size: 34px; }
+  .ribbon__banner { width: 280px; height: 78px; font-size: 22px; }
+}
+
+@media (max-width: 767px) {
+  .ribbon { margin-bottom: 40px; }
+  .ribbon__lead { font-size: 26px; }
+  .ribbon__banner { width: 200px; height: 60px; font-size: 17px; }
+}

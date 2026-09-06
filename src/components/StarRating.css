@@ -1,0 +1,6 @@
+.stars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--star);
+  line-height: 1;
+}

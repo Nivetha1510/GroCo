@@ -1,0 +1,24 @@
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  height: 34px;
+  padding: 0 20px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+}
+
+.back-btn--ghost {
+  border: 1px solid var(--line);
+  background: var(--muted-bg);
+  color: var(--brand-green);
+}
+.back-btn--ghost:hover { background: #e5e4e4; }
+
+.back-btn--accent {
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  height: 36px;
+}
+.back-btn--accent:hover { filter: brightness(.94); }

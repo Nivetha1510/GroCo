@@ -1,0 +1,93 @@
+/* ---------- Hero (frame 40: 1440 x 876) ---------- */
+.hero {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  min-height: 780px;
+  padding-top: 130px;
+  background: linear-gradient(100deg, #f6f7f1 0%, #f8f9f3 45%, #fcfcf8 100%);
+  overflow: hidden;
+}
+
+/* The supplied hero art carries its own pale background, so it is
+   anchored bottom-left at full band height and blended into the
+   gradient with a soft mask (frame 40). */
+.hero__img {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 96%;
+  max-width: 1420px;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to right, #000 70%, transparent 95%);
+          mask-image: linear-gradient(to right, #000 70%, transparent 95%);
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 60px 0 576px;
+  text-align: center;
+}
+
+.hero__title {
+  margin: 0 0 22px;
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--brand-green);
+}
+.hero__title span { color: var(--accent-strong); }
+
+.hero__text {
+  margin: 0 0 30px;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  white-space: pre-line;
+}
+
+.hero__cta { min-width: 160px; height: 46px; border-width: 1.5px; }
+
+/* ---------- section grid variants ---------- */
+.container--wide { max-width: 1400px; }
+
+.grid-3--reviews { grid-template-columns: repeat(3, 418px); gap: 41px; }
+.grid-3--blog { grid-template-columns: repeat(3, 345px); gap: 72px; }
+
+@media (max-width: 1439px) {
+  .hero { min-height: 640px; }
+  .hero__title { font-size: 34px; }
+  .grid-3--reviews { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px; }
+  .grid-3--blog { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
+}
+
+@media (max-width: 1023px) {
+  .hero { min-height: 520px; }
+  .hero__content { padding: 0 32px 0 40%; }
+  .grid-3--reviews,
+  .grid-3--blog { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    min-height: 0;
+    flex-direction: column-reverse;
+    padding: 44px 0 0;
+  }
+  .hero__img {
+    position: static;
+    width: 100%;
+    max-width: none;
+    margin-top: 24px;
+  }
+  .hero__content { padding: 0 18px; }
+  .hero__title { font-size: 24px; }
+  .hero__text { font-size: 14px; }
+  .grid-3--reviews,
+  .grid-3--blog { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+}

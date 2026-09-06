@@ -1,0 +1,167 @@
+.checkout { background: #fff; padding: 0 0 90px; }
+
+.checkout__title {
+  margin: 0;
+  padding: 40px 0 60px;
+  text-align: center;
+  font-size: 27px;
+  font-weight: 700;
+  color: var(--brand-green);
+}
+
+.checkout__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 420px;
+  gap: 38px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 30px 54px;
+  background: var(--page-bg);
+}
+
+.checkout__form,
+.checkout__summary { background: var(--panel-bg); padding: 28px 30px 34px; }
+
+.checkout__heading {
+  margin: 32px 0 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.checkout__form .checkout__heading:first-of-type { margin-top: 28px; }
+
+.checkout__grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px 18px;
+}
+
+.checkout__field { grid-column: span 6; }
+.checkout__field.is-half { grid-column: span 3; }
+.checkout__field.is-third { grid-column: span 2; }
+
+.checkout__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.checkout__input {
+  width: 100%;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid #d8d8d8;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 14px;
+}
+.checkout__input:focus { outline: none; border-color: var(--brand-green); }
+
+.checkout__options { display: flex; flex-direction: column; gap: 12px; }
+
+.checkout__option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+.checkout__option input { accent-color: var(--accent-strong); }
+.checkout__option-icon { color: var(--accent-strong); font-size: 17px; }
+
+.checkout__promo { display: flex; align-items: center; gap: 12px; }
+
+.checkout__promo-input {
+  width: 224px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid #d8d8d8;
+  border-radius: 4px 0 0 4px;
+  background: #fff;
+  font-size: 12px;
+}
+
+.checkout__promo-btn {
+  height: 32px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  background: var(--accent-strong);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  margin-left: -12px;
+}
+
+.checkout__applied { font-size: 12px; font-weight: 600; color: var(--teal-cta); }
+.checkout__invalid { font-size: 12px; font-weight: 600; color: var(--heart); }
+
+.checkout__actions { display: flex; justify-content: flex-end; margin-top: 36px; }
+.checkout__actions .btn-teal:disabled { opacity: .5; cursor: not-allowed; }
+
+/* ---------- summary ---------- */
+.checkout__summary-title {
+  margin: 0 0 26px;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--brand-green);
+}
+
+.checkout__items { display: flex; flex-direction: column; }
+
+.checkout__item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e6cfc5;
+}
+.checkout__item img {
+  width: 54px;
+  height: 42px;
+  object-fit: contain;
+  background: #fff;
+  flex: none;
+}
+.checkout__item-meta { flex: 1; min-width: 0; }
+.checkout__item-meta h3 {
+  margin: 0 0 2px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--brand-green);
+}
+.checkout__item-meta p { margin: 0; font-size: 11px; color: var(--text-secondary); }
+.checkout__item-price { font-size: 14px; font-weight: 600; color: var(--brand-green); }
+
+.checkout__empty { font-size: 14px; color: var(--text-secondary); }
+
+.checkout__totals { margin: 22px 0 0; }
+.checkout__totals > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+.checkout__totals dt, .checkout__totals dd { margin: 0; }
+.checkout__totals .is-total {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--brand-green);
+}
+
+@media (max-width: 1023px) {
+  .checkout__inner { grid-template-columns: minmax(0, 1fr); padding: 24px; }
+}
+
+@media (max-width: 767px) {
+  .checkout__inner { padding: 18px; gap: 24px; }
+  .checkout__form, .checkout__summary { padding: 20px 16px 26px; }
+  .checkout__field.is-half,
+  .checkout__field.is-third { grid-column: span 6; }
+  .checkout__promo-input { flex: 1; width: auto; }
+  .checkout__actions { justify-content: stretch; }
+  .checkout__actions .btn-teal { width: 100%; }
+}

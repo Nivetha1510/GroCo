@@ -1,0 +1,27 @@
+.support { padding: 0 0 110px; }
+
+.support__card {
+  max-width: 560px;
+  margin: 50px auto 0;
+  padding: 34px 36px 38px;
+  background: #fdf1ec;
+  border-radius: var(--radius);
+}
+
+.support__lead { margin: 0 0 26px; font-size: 16px; color: var(--brand-green); }
+
+.support__list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 30px; }
+.support__list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: var(--text-primary);
+}
+.support__list svg { color: var(--accent-strong); font-size: 17px; }
+
+.support__cta { color: #fff; }
+
+@media (max-width: 767px) {
+  .support__card { margin: 34px 18px 0; padding: 24px 20px 28px; }
+}

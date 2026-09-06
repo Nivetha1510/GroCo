@@ -1,0 +1,97 @@
+.buy-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px 22px;
+  background: var(--card-bg);
+  border-radius: 12px;
+}
+
+.buy-card__heart {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 20px;
+  /* The design only ever shows the filled red heart, so the resting
+     state is the same red as an outline and the active state fills. */
+  color: var(--heart);
+  transition: transform .15s ease;
+}
+.buy-card__heart:hover { transform: scale(1.12); }
+
+.buy-card__media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 118px;
+  margin-bottom: 16px;
+}
+.buy-card__media img { max-height: 118px; width: auto; object-fit: contain; }
+
+.buy-card__price {
+  margin: 0 0 12px;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--brand-green);
+}
+
+.buy-card__meta { margin-bottom: 14px; }
+
+.buy-card__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.buy-card__name {
+  margin: 0 0 2px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--brand-green);
+}
+
+.buy-card__sub { margin: 0; font-size: 14px; color: var(--brand-green); }
+
+.buy-card__btn { height: 36px; padding: 0 18px; font-size: 14px; }
+
+.buy-card__stepper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 4px 6px;
+}
+
+.buy-card__step-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 4px;
+  background: var(--muted-bg);
+  color: var(--brand-green);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+}
+.buy-card__step-btn:hover { background: var(--line-soft); }
+
+.buy-card__qty {
+  min-width: 16px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+@media (max-width: 767px) {
+  .buy-card__row { flex-direction: column; align-items: flex-start; }
+  .buy-card__btn { width: 100%; }
+}
