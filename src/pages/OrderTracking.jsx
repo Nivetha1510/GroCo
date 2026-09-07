@@ -5,7 +5,9 @@ import { FaShoppingCart, FaCogs, FaBoxOpen, FaTruck, FaCheckCircle } from 'react
 import { useOrder, ORDER_STATUSES, ORDER_PROGRESS } from '../context/OrderContext';
 import './OrderTracking.css';
 
-const DELIVERY_WINDOW_DAYS = 5;
+/* Quick-commerce grocery delivery — a fixed 30-minute window, counting down
+   as the order's status progresses (Delivered = arrived). */
+const DELIVERY_WINDOW_MINUTES = 30;
 
 const longDate = (date) =>
   date.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
@@ -36,11 +38,11 @@ export default function OrderTracking() {
   const order = orders.find((o) => o.id === selectedId) || orders[0];
 
   const orderDate = order.placedAt ? new Date(order.placedAt) : new Date();
-  const etaDate = new Date(orderDate);
-  etaDate.setDate(etaDate.getDate() + DELIVERY_WINDOW_DAYS);
 
   const currentIndex = Math.max(0, ORDER_STATUSES.indexOf(order.status));
   const progress = ORDER_PROGRESS[order.status] ?? ORDER_PROGRESS['Order Placed'];
+  const delivered = order.status === 'Delivered';
+  const minutesLeft = Math.max(0, Math.round(DELIVERY_WINDOW_MINUTES * (1 - progress / 100)));
 
   const STAGES = STAGE_META.map((meta, i) => ({
     ...meta,
@@ -57,8 +59,10 @@ export default function OrderTracking() {
         <h2 className="track__heading track__heading--tight">Order #{order.id}</h2>
         <div className="track__eta">
           <div>
-            <p className="track__eta-label">Your order is expected to arrive by</p>
-            <p className="track__eta-date">{longDate(etaDate)}</p>
+            <p className="track__eta-label">
+              {delivered ? 'Your order has arrived' : 'Your order will arrive in'}
+            </p>
+            <p className="track__eta-date">{delivered ? 'Delivered' : `${minutesLeft} min`}</p>
           </div>
           <MdLocalShipping className="track__eta-icon" />
         </div>
