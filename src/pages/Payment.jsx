@@ -202,7 +202,7 @@ export default function Payment() {
 
             <div className="payment__amount">
               <h2>Payment amount</h2>
-              <span>${finalTotal.toFixed(2)}</span>
+              <span>₹{finalTotal.toFixed(2)}</span>
             </div>
           </div>
 
@@ -332,7 +332,7 @@ export default function Payment() {
                   <>
                     <p className="payment__hint">
                       Open Google Pay, PhonePe, Paytm or any UPI app and scan the QR code
-                      to pay <strong>${finalTotal.toFixed(2)}</strong>.
+                      to pay <strong>₹{finalTotal.toFixed(2)}</strong>.
                     </p>
 
                     <div className="payment__actions">

@@ -31,9 +31,9 @@ export default function Login() {
       return;
     }
 
-    const { from, buyNowProduct, buyNowQty } = location.state || {};
+    const { from, buyNowProduct, buyNowQty, buyNowUnit } = location.state || {};
     if (buyNowProduct) {
-      addToCart(buyNowProduct, buyNowQty || 1);
+      addToCart(buyNowProduct, buyNowQty || 1, buyNowUnit || 'kg');
       navigate('/cart');
     } else {
       navigate(from || '/');

@@ -17,7 +17,21 @@ import mango from '../assets/images/product-fresh-mango.jpg';
 import papaya from '../assets/images/product-fresh-papaya.jpg';
 import pineapple from '../assets/images/product-fresh-pineapple.jpg';
 
-const PRICE_RANGE = '$4.99- $10.99';
+/* Approximate Indian retail prices per kg — illustrative, not a live feed. */
+const PRICE = {
+  'fresh-meet': 350,
+  'fresh-spring-onion': 40,
+  'fresh-lemon': 80,
+  'fresh-carrot': 50,
+  'fresh-onion': 35,
+  'fresh-orange': 80,
+  'fresh-green-apple': 200,
+  'fresh-watermelon': 25,
+  'fresh-brinjal': 40,
+  'fresh-mango': 120,
+  'fresh-papaya': 40,
+  'fresh-pineapple': 60,
+};
 
 export const products = [
   { id: 'fresh-meet',         name: 'Meet',         cartName: 'Meet',         category: 'meats',      image: meet },
@@ -32,7 +46,7 @@ export const products = [
   { id: 'fresh-mango',        name: 'Mango',        cartName: 'Mango',        category: 'fruits',     image: mango },
   { id: 'fresh-papaya',       name: 'Papaya',       cartName: 'Papaya',       category: 'fruits',     image: papaya },
   { id: 'fresh-pineapple',    name: 'Pineapple',    cartName: 'Pineapple',    category: 'fruits',     image: pineapple },
-].map((p) => ({ ...p, price: 4.99, priceRange: PRICE_RANGE, rating: 4.5 }));
+].map((p) => ({ ...p, price: PRICE[p.id], rating: 4.5 }));
 
 /* The home page shows these six, in this order (frame 40). */
 export const homeProducts = [

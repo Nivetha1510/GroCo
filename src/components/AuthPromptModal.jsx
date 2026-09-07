@@ -1,14 +1,24 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import './AuthPromptModal.css';
 
-export default function AuthPromptModal({ open, onClose, product, qty = 1 }) {
+export default function AuthPromptModal({
+  open, onClose, product, qty = 1, unit = 'kg', redirectTo,
+  message = 'Please sign in or create an account to buy this item.',
+}) {
   const navigate = useNavigate();
   const location = useLocation();
 
   if (!open) return null;
 
   const goTo = (path) => {
-    navigate(path, { state: { from: location.pathname, buyNowProduct: product, buyNowQty: qty } });
+    navigate(path, {
+      state: {
+        from: redirectTo || location.pathname,
+        buyNowProduct: product,
+        buyNowQty: qty,
+        buyNowUnit: unit,
+      },
+    });
   };
 
   return (
@@ -23,9 +33,7 @@ export default function AuthPromptModal({ open, onClose, product, qty = 1 }) {
           &times;
         </button>
         <h2 className="auth-prompt__title">Sign In To Continue</h2>
-        <p className="auth-prompt__text">
-          Please sign in or create an account to buy this item.
-        </p>
+        <p className="auth-prompt__text">{message}</p>
         <div className="auth-prompt__actions">
           <button
             type="button"

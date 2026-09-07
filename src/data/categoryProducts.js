@@ -48,15 +48,62 @@ const SUBTITLE = {
   meat: 'Meat',
 };
 
+/* Approximate Indian retail prices per kg — illustrative, not a live feed. */
+const PRICE = {
+  Milk: 60,
+  'Nestle EveryDay': 450,
+  'Camel Milk': 500,
+  Ghee: 550,
+  Cheese: 400,
+  Curd: 70,
+  Paneer: 350,
+  Yogurt: 90,
+  Butter: 550,
+  Garlic: 250,
+  Potato: 30,
+  Tomato: 40,
+  'Green Chilli': 80,
+  Okra: 60,
+  'Bitter Gourd': 50,
+  Broccoli: 120,
+  'Raw Banana': 50,
+  Carrot: 50,
+  Cabbage: 30,
+  Brinjal: 40,
+  Orange: 80,
+  Watermelon: 25,
+  Mango: 120,
+  Papaya: 40,
+  Pineapple: 60,
+  Grapes: 90,
+  Jackfruit: 50,
+  'Red Apple': 180,
+  Banana: 50,
+  Meat: 350,
+  Chicken: 220,
+  'Whole Chicken': 220,
+  Mutton: 750,
+  Fish: 300,
+  Crab: 450,
+  Squid: 500,
+  Prawns: 600,
+  'Chicken Drumstick': 280,
+  'Chicken Breast': 320,
+};
+
+/* Liquids are sold by the liter rather than by weight. */
+const VOLUME_ITEMS = new Set(['Milk', 'Camel Milk']);
+
 const card = (id, cartName, image, reviewType) => ({
   id,
   cartName,
   image,
-  price: 8.99,
+  price: PRICE[cartName],
   name: cartName,
   subtitle: SUBTITLE[reviewType],
   rating: 4,
   review: R[reviewType],
+  unitType: VOLUME_ITEMS.has(cartName) ? 'volume' : 'weight',
 });
 
 const R = {

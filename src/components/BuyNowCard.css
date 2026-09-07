@@ -32,20 +32,20 @@
 .buy-card__media img { max-height: 118px; width: auto; object-fit: contain; }
 
 .buy-card__price {
-  margin: 0 0 12px;
+  margin: 0 0 20px;
   font-size: 19px;
   font-weight: 700;
   color: var(--brand-green);
 }
 
-.buy-card__meta { margin-bottom: 14px; }
-
 .buy-card__row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 16px;
 }
+
+.buy-card__meta { min-width: 0; }
 
 .buy-card__name {
   margin: 0 0 2px;
@@ -56,42 +56,20 @@
 
 .buy-card__sub { margin: 0; font-size: 14px; color: var(--brand-green); }
 
-.buy-card__btn { height: 36px; padding: 0 18px; font-size: 14px; }
-
-.buy-card__stepper {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 4px 6px;
-}
-
-.buy-card__step-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
+.buy-card__btn {
+  flex: none;
+  height: 64px;
+  padding: 0 22px;
   border: none;
-  border-radius: 4px;
-  background: var(--muted-bg);
-  color: var(--brand-green);
-  font-size: 15px;
-  line-height: 1;
-  cursor: pointer;
-}
-.buy-card__step-btn:hover { background: var(--line-soft); }
-
-.buy-card__qty {
-  min-width: 16px;
-  text-align: center;
-  font-size: 14px;
+  border-radius: var(--radius-lg);
+  background: var(--accent);
+  color: #fff;
+  font-size: 16px;
   font-weight: 600;
-  color: var(--text-primary);
 }
+.buy-card__btn:hover { filter: brightness(0.96); }
 
 @media (max-width: 767px) {
-  .buy-card__row { flex-direction: column; align-items: flex-start; }
-  .buy-card__btn { width: 100%; }
+  .buy-card__row { flex-wrap: wrap; }
+  .buy-card__btn { width: 100%; height: 48px; }
 }

@@ -20,7 +20,7 @@ export default function ProductCard({ product }) {
           <img src={product.image} alt={product.name} />
         </Link>
         <h3 className="product-card__name">{product.name}</h3>
-        <p className="product-card__price">{product.priceRange}</p>
+        <p className="product-card__price">₹{product.price}/kg</p>
         <StarRating value={product.rating} size={22} />
         <button
           type="button"

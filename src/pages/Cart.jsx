@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaRegTrashAlt } from 'react-icons/fa';
-import { useCart } from '../context/CartContext';
+import { useCart, UNIT_STEP, baseUnitLabel } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import AuthPromptModal from '../components/AuthPromptModal';
 import './Cart.css';
 
 export default function Cart() {
@@ -9,14 +11,24 @@ export default function Cart() {
     items, total, removeFromCart, updateQuantity,
     coupon, applyCoupon, couponValid, discountPercent,
   } = useCart();
+  const { user } = useAuth();
   const [code, setCode] = useState(coupon || '');
   const [applied, setApplied] = useState(Boolean(coupon));
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
   const navigate = useNavigate();
 
   const onApply = () => {
     if (!code.trim()) return;
     applyCoupon(code.trim());
     setApplied(true);
+  };
+
+  const goToCheckout = () => {
+    if (!user) {
+      setShowAuthPrompt(true);
+      return;
+    }
+    navigate('/checkout');
   };
 
   return (
@@ -29,29 +41,29 @@ export default function Cart() {
         ) : (
           <ul className="cart__list">
             {items.map((item) => (
-              <li className="cart__row" key={item.id}>
+              <li className="cart__row" key={`${item.id}-${item.unit}`}>
                 <div className="cart__thumb">
                   <img src={item.image} alt={item.name} />
                 </div>
                 <div className="cart__meta">
                   <h3 className="cart__name">{item.name}</h3>
-                  <p className="cart__price">${item.price.toFixed(3)}</p>
+                  <p className="cart__price">₹{item.price.toFixed(2)}/{baseUnitLabel(item.unit)}</p>
                 </div>
                 <div className="cart__stepper">
                   <button
                     type="button"
                     className="cart__step-btn"
                     aria-label={`Decrease quantity of ${item.name}`}
-                    onClick={() => updateQuantity(item.id, item.qty - 1)}
+                    onClick={() => updateQuantity(item.id, item.unit, item.qty - UNIT_STEP[item.unit])}
                   >
                     &minus;
                   </button>
-                  <span className="cart__qty">{item.qty}</span>
+                  <span className="cart__qty">{item.qty} {item.unit}</span>
                   <button
                     type="button"
                     className="cart__step-btn"
                     aria-label={`Increase quantity of ${item.name}`}
-                    onClick={() => updateQuantity(item.id, item.qty + 1)}
+                    onClick={() => updateQuantity(item.id, item.unit, item.qty + UNIT_STEP[item.unit])}
                   >
                     &#43;
                   </button>
@@ -60,7 +72,7 @@ export default function Cart() {
                   type="button"
                   className="cart__delete"
                   aria-label={`Remove ${item.name}`}
-                  onClick={() => removeFromCart(item.id)}
+                  onClick={() => removeFromCart(item.id, item.unit)}
                 >
                   <FaRegTrashAlt />
                 </button>
@@ -73,13 +85,13 @@ export default function Cart() {
           <div className="cart__total">
             <span className="cart__total-label">Total</span>
             <span className="cart__total-colon">:</span>
-            <span className="cart__total-value">${total.toFixed(3)}</span>
+            <span className="cart__total-value">₹{total.toFixed(2)}</span>
           </div>
           <button
             type="button"
             className="cart__checkout"
             disabled={items.length === 0}
-            onClick={() => navigate('/checkout')}
+            onClick={goToCheckout}
           >
             Checkout
           </button>
@@ -115,6 +127,13 @@ export default function Cart() {
           <span aria-hidden="true">&#8592;</span>Back To Shopping
         </button>
       </div>
+
+      <AuthPromptModal
+        open={showAuthPrompt}
+        onClose={() => setShowAuthPrompt(false)}
+        redirectTo="/checkout"
+        message="Please sign in or create an account to continue to checkout."
+      />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { FiSearch } from 'react-icons/fi';
 import { MdOutlineShoppingCart, MdStorefront } from 'react-icons/md';
@@ -6,6 +6,8 @@ import { FaUser, FaHeart } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useFavorites } from '../context/FavoritesContext';
+import { products } from '../data/products';
+import { allCategoryProducts } from '../data/categoryProducts';
 import SearchBar from './SearchBar';
 import './Header.css';
 
@@ -16,8 +18,29 @@ const NAV = [
   { to: '/contact',    label: 'Contact' },
 ];
 
+const MAX_SUGGESTIONS = 6;
+const SEARCH_POOL = [...products, ...allCategoryProducts];
+
+const findSuggestions = (term) => {
+  const q = term.trim().toLowerCase();
+  if (!q) return [];
+  const seen = new Set();
+  const matches = [];
+  for (const p of SEARCH_POOL) {
+    const key = p.cartName || p.name;
+    if (seen.has(key)) continue;
+    if (p.name.toLowerCase().includes(q) || (p.cartName || '').toLowerCase().includes(q)) {
+      seen.add(key);
+      matches.push(p);
+      if (matches.length >= MAX_SUGGESTIONS) break;
+    }
+  }
+  return matches;
+};
+
 export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const { count } = useCart();
@@ -25,10 +48,24 @@ export default function Header() {
   const { ids: favoriteIds } = useFavorites();
   const navigate = useNavigate();
   const accountRef = useRef(null);
+  const searchRef = useRef(null);
+  const searchToggleRef = useRef(null);
+
+  const suggestions = useMemo(() => findSuggestions(searchTerm), [searchTerm]);
+
+  const closeSearch = () => {
+    setSearchOpen(false);
+    setSearchTerm('');
+  };
 
   const submitSearch = (term) => {
-    setSearchOpen(false);
+    closeSearch();
     navigate(`/search?q=${encodeURIComponent(term)}`);
+  };
+
+  const goToSuggestion = (id) => {
+    closeSearch();
+    navigate(`/product/${id}`);
   };
 
   const handleLogout = () => {
@@ -47,6 +84,20 @@ export default function Header() {
     document.addEventListener('mousedown', onClickOutside);
     return () => document.removeEventListener('mousedown', onClickOutside);
   }, [accountOpen]);
+
+  useEffect(() => {
+    if (!searchOpen) return undefined;
+    const onClickOutside = (e) => {
+      if (
+        searchRef.current && !searchRef.current.contains(e.target) &&
+        searchToggleRef.current && !searchToggleRef.current.contains(e.target)
+      ) {
+        closeSearch();
+      }
+    };
+    document.addEventListener('mousedown', onClickOutside);
+    return () => document.removeEventListener('mousedown', onClickOutside);
+  }, [searchOpen]);
 
   return (
     <header className="header">
@@ -83,6 +134,7 @@ export default function Header() {
 
         <div className="header__actions">
           <button
+            ref={searchToggleRef}
             className="header__icon"
             aria-label="Search"
             onClick={() => setSearchOpen((v) => !v)}
@@ -133,9 +185,47 @@ export default function Header() {
       </div>
 
       {searchOpen && (
-        <div className="header__search">
+        <div className="header__search" ref={searchRef}>
           <div className="header__search-inner">
-            <SearchBar autoFocus onSubmit={submitSearch} />
+            <SearchBar
+              autoFocus
+              value={searchTerm}
+              onChange={setSearchTerm}
+              onSubmit={submitSearch}
+            />
+
+            {suggestions.length > 0 && (
+              <ul className="header__suggestions">
+                {suggestions.map((p) => (
+                  <li key={p.id}>
+                    <button
+                      type="button"
+                      className="header__suggestion"
+                      onClick={() => goToSuggestion(p.id)}
+                    >
+                      <img src={p.image} alt="" />
+                      <span className="header__suggestion-name">{p.cartName || p.name}</span>
+                      <span className="header__suggestion-price">
+                        ₹{p.price}/{p.unitType === 'volume' ? 'L' : 'kg'}
+                      </span>
+                    </button>
+                  </li>
+                ))}
+                <li>
+                  <button
+                    type="button"
+                    className="header__suggestion header__suggestion-all"
+                    onClick={() => submitSearch(searchTerm)}
+                  >
+                    See all results for &ldquo;{searchTerm.trim()}&rdquo;
+                  </button>
+                </li>
+              </ul>
+            )}
+
+            {suggestions.length === 0 && searchTerm.trim() && (
+              <p className="header__no-suggestions">No products match &ldquo;{searchTerm.trim()}&rdquo;.</p>
+            )}
           </div>
         </div>
       )}

@@ -46,6 +46,15 @@
   padding: 6px 14px;
 }
 
+.pd__stepper .unit-toggle {
+  height: 34px;
+  border-radius: 6px;
+}
+.pd__stepper .unit-toggle__btn {
+  padding: 0 16px;
+  font-size: 13px;
+}
+
 .pd__step-btn {
   display: flex;
   align-items: center;

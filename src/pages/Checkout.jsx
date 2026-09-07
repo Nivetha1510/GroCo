@@ -234,14 +234,14 @@ export default function Checkout() {
           ) : (
             <ul className="checkout__items">
               {items.map((item) => (
-                <li className="checkout__item" key={item.id}>
+                <li className="checkout__item" key={`${item.id}-${item.unit}`}>
                   <img src={item.image} alt="" />
                   <div className="checkout__item-meta">
                     <h3>{item.name}</h3>
-                    <p>Quantity: {item.qty}</p>
+                    <p>Quantity: {item.qty} {item.unit}</p>
                   </div>
                   <span className="checkout__item-price">
-                    ${(item.price * item.qty).toFixed(2)}
+                    ₹{(item.price * (item.unit === 'g' ? item.qty / 1000 : item.qty)).toFixed(2)}
                   </span>
                 </li>
               ))}
@@ -249,21 +249,21 @@ export default function Checkout() {
           )}
 
           <dl className="checkout__totals">
-            <div><dt>Subtotal</dt><dd>${subtotal.toFixed(2)}</dd></div>
-            <div><dt>Shipping</dt><dd>${shipping.toFixed(2)}</dd></div>
+            <div><dt>Subtotal</dt><dd>₹{subtotal.toFixed(2)}</dd></div>
+            <div><dt>Shipping</dt><dd>₹{shipping.toFixed(2)}</dd></div>
             {couponValid && (
               <div>
                 <dt>Coupon ({Math.round(couponDiscountPercent * 100)}%)</dt>
-                <dd>&minus;${couponDiscountAmount.toFixed(2)}</dd>
+                <dd>&minus;₹{couponDiscountAmount.toFixed(2)}</dd>
               </div>
             )}
             {promoValid && (
               <div>
                 <dt>Promo ({Math.round(promoDiscountPercent * 100)}%)</dt>
-                <dd>&minus;${promoDiscountAmount.toFixed(2)}</dd>
+                <dd>&minus;₹{promoDiscountAmount.toFixed(2)}</dd>
               </div>
             )}
-            <div className="is-total"><dt>Total</dt><dd>${finalTotal.toFixed(2)}</dd></div>
+            <div className="is-total"><dt>Total</dt><dd>₹{finalTotal.toFixed(2)}</dd></div>
           </dl>
         </aside>
       </div>

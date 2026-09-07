@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MdLocalShipping, MdSupportAgent } from 'react-icons/md';
 import { FaShoppingCart, FaCogs, FaBoxOpen, FaTruck, FaCheckCircle } from 'react-icons/fa';
-import { useOrder } from '../context/OrderContext';
+import { useOrder, ORDER_STATUSES, ORDER_PROGRESS } from '../context/OrderContext';
 import './OrderTracking.css';
 
 const DELIVERY_WINDOW_DAYS = 5;
@@ -9,27 +10,51 @@ const DELIVERY_WINDOW_DAYS = 5;
 const longDate = (date) =>
   date.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-export default function OrderTracking() {
-  const { order } = useOrder();
+const STAGE_META = [
+  { Icon: FaShoppingCart, title: 'Order Placed', text: (orderDate) => `We received your order on ${longDate(orderDate)}.` },
+  { Icon: FaCogs, title: 'Processing', text: () => 'Your order is being prepared for shipment.' },
+  { Icon: FaBoxOpen, title: 'Shipped', text: () => 'Your package has left the warehouse.' },
+  { Icon: FaTruck, title: 'Out for Delivery', text: () => 'Your package is on the way to your address.' },
+  { Icon: FaCheckCircle, title: 'Delivered', text: () => 'Your package has been delivered.' },
+];
 
-  const orderDate = order?.placedAt ? new Date(order.placedAt) : new Date();
+export default function OrderTracking() {
+  const { orders, updateOrderStatus } = useOrder();
+  const [selectedId, setSelectedId] = useState(null);
+
+  if (!orders.length) {
+    return (
+      <div className="track">
+        <h1 className="track__title">Order Tracking</h1>
+        <div className="track__panel">
+          <p className="track__help-text">No active order found.</p>
+        </div>
+      </div>
+    );
+  }
+
+  const order = orders.find((o) => o.id === selectedId) || orders[0];
+
+  const orderDate = order.placedAt ? new Date(order.placedAt) : new Date();
   const etaDate = new Date(orderDate);
   etaDate.setDate(etaDate.getDate() + DELIVERY_WINDOW_DAYS);
 
-  const STAGES = [
-    { Icon: FaShoppingCart, title: 'Order Placed',    text: `We received your order on ${longDate(orderDate)}.`, done: true },
-    { Icon: FaCogs,         title: 'Processing',      text: 'Your order is being prepared for shipment.',    done: true, active: true },
-    { Icon: FaBoxOpen,      title: 'Shipped',         text: 'Your package has left the warehouse.',          done: false },
-    { Icon: FaTruck,        title: 'Out for Delivery', text: 'Your package is on the way to your address.',  done: false },
-    { Icon: FaCheckCircle,  title: 'Delivered',       text: 'Your package has been delivered.',             done: false },
-  ];
+  const currentIndex = Math.max(0, ORDER_STATUSES.indexOf(order.status));
+  const progress = ORDER_PROGRESS[order.status] ?? ORDER_PROGRESS['Order Placed'];
+
+  const STAGES = STAGE_META.map((meta, i) => ({
+    ...meta,
+    text: meta.text(orderDate),
+    done: i <= currentIndex,
+    active: i === currentIndex,
+  }));
 
   return (
     <div className="track">
       <h1 className="track__title">Order Tracking</h1>
 
       <div className="track__panel">
-        <h2 className="track__heading">Estimated Delivery</h2>
+        <h2 className="track__heading track__heading--tight">Order #{order.id}</h2>
         <div className="track__eta">
           <div>
             <p className="track__eta-label">Your order is expected to arrive by</p>
@@ -44,9 +69,9 @@ export default function OrderTracking() {
 
         <div className="track__progress">
           <div className="track__bar">
-            <span style={{ width: '70%' }} />
+            <span style={{ width: `${progress}%` }} />
           </div>
-          <span className="track__percent">70% Complete</span>
+          <span className="track__percent">{progress}% Complete</span>
         </div>
 
         <ul className="track__stages">
@@ -63,6 +88,29 @@ export default function OrderTracking() {
         </ul>
       </div>
 
+      {orders.length > 1 && (
+        <div className="track__panel">
+          <h2 className="track__heading">Order History</h2>
+          <ul className="track__history-list">
+            {orders.map((o) => (
+              <li key={o.id}>
+                <button
+                  type="button"
+                  className={`track__history-item ${o.id === order.id ? 'is-selected' : ''}`}
+                  onClick={() => setSelectedId(o.id)}
+                >
+                  <span className="track__history-id">#{o.id}</span>
+                  <span className="track__history-meta">
+                    {new Date(o.placedAt).toLocaleDateString()} · {o.items.length} item(s) · ₹{o.total.toFixed(2)}
+                  </span>
+                  <span className="track__history-status">{o.status}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       <div className="track__panel">
         <div className="track__help">
           <div>
@@ -78,12 +126,24 @@ export default function OrderTracking() {
         </div>
       </div>
 
-      {order && (
-        <p className="track__ref">
-          Tracking reference for order placed{' '}
-          {new Date(order.placedAt).toLocaleDateString()} · {order.items.length} item(s) ·{' '}
-          ${order.total.toFixed(2)}
-        </p>
+      {import.meta.env.DEV && (
+        <div className="track__panel">
+          <h2 className="track__heading track__heading--tight">Dev only — simulate status</h2>
+          <p className="track__help-text" style={{ marginBottom: 12 }}>
+            Not shown in production builds. Applies to order #{order.id}.
+          </p>
+          {ORDER_STATUSES.map((s) => (
+            <button
+              key={s}
+              type="button"
+              disabled={s === order.status}
+              onClick={() => updateOrderStatus(order.id, s)}
+              style={{ marginRight: 8, marginBottom: 8 }}
+            >
+              {s}
+            </button>
+          ))}
+        </div>
       )}
     </div>
   );

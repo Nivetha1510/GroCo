@@ -4,12 +4,15 @@ import { MdOutlineShoppingCart } from 'react-icons/md';
 import { FaStar } from 'react-icons/fa';
 import StarRating from '../components/StarRating';
 import AuthPromptModal from '../components/AuthPromptModal';
-import { useCart } from '../context/CartContext';
+import UnitToggle from '../components/UnitToggle';
+import { useCart, UNIT_STEP, UNIT_MIN, DEFAULT_QTY, UNIT_PAIRS } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { getCategoryProductById } from '../data/categoryProducts';
 import { getProductById } from '../data/products';
 import { getProductDetailsText } from '../data/content';
 import './ProductDetail.css';
+
+const REVIEWERS = ['Priya Sharma', 'Arjun Mehta'];
 
 /* Frames 55–60. Every variant carries the same copy in the design. */
 export default function ProductDetail() {
@@ -17,12 +20,21 @@ export default function ProductDetail() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { user } = useAuth();
-  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
-  const [qty, setQty] = useState(1);
 
   const catalogItem = getProductById(id);
   const gridItem = getCategoryProductById(id);
   const product = gridItem || catalogItem;
+  const unitPair = UNIT_PAIRS[product?.unitType || 'weight'];
+  const bigUnit = unitPair[1];
+
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
+  const [unit, setUnit] = useState(bigUnit);
+  const [qty, setQty] = useState(DEFAULT_QTY[bigUnit]);
+
+  const changeUnit = (nextUnit) => {
+    setUnit(nextUnit);
+    setQty(DEFAULT_QTY[nextUnit]);
+  };
 
   if (!product) {
     return (
@@ -45,7 +57,7 @@ export default function ProductDetail() {
       setShowAuthPrompt(true);
       return;
     }
-    addToCart(product, qty);
+    addToCart(product, qty, unit);
     navigate('/cart');
   };
 
@@ -59,33 +71,34 @@ export default function ProductDetail() {
         <div className="pd__info">
           <h1 className="pd__title">{title}</h1>
           <p className="pd__subtitle">{subtitle}</p>
-          <p className="pd__price">${price}</p>
+          <p className="pd__price">₹{price}/{bigUnit}</p>
 
           <div className="pd__stepper">
             <button
               type="button"
               className="pd__step-btn"
               aria-label="Decrease quantity"
-              onClick={() => setQty((q) => Math.max(1, q - 1))}
+              onClick={() => setQty((q) => Math.max(UNIT_MIN[unit], q - UNIT_STEP[unit]))}
             >
               &minus;
             </button>
-            <span className="pd__qty">{qty}</span>
+            <span className="pd__qty">{qty} {unit}</span>
             <button
               type="button"
               className="pd__step-btn"
               aria-label="Increase quantity"
-              onClick={() => setQty((q) => q + 1)}
+              onClick={() => setQty((q) => q + UNIT_STEP[unit])}
             >
               &#43;
             </button>
+            <UnitToggle unit={unit} units={unitPair} onChange={changeUnit} />
           </div>
 
           <div className="pd__actions">
             <button
               type="button"
               className="pd__add"
-              onClick={() => addToCart(product, qty)}
+              onClick={() => addToCart(product, qty, unit)}
             >
               <MdOutlineShoppingCart />
               <span>Add to Cart</span>
@@ -108,11 +121,11 @@ export default function ProductDetail() {
 
       <section className="pd__block">
         <h2 className="pd__heading">Review</h2>
-        {[0, 1].map((i) => (
+        {REVIEWERS.map((reviewer, i) => (
           <div className="pd__review" key={i}>
             <span className="pd__avatar" />
             <div className="pd__review-body">
-              <h4 className="pd__reviewer">Maheshwari</h4>
+              <h4 className="pd__reviewer">{reviewer}</h4>
               <p className="pd__review-text">{reviewLine}</p>
               <StarRating value={4} size={18} />
             </div>
@@ -125,6 +138,7 @@ export default function ProductDetail() {
         onClose={() => setShowAuthPrompt(false)}
         product={product}
         qty={qty}
+        unit={unit}
       />
     </div>
   );
