@@ -13,12 +13,20 @@ const SOCIALS = [FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn];
 export default function Footer() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [error, setError] = useState('');
 
   const subscribe = () => {
-    if (!/^\S+@\S+\.\S+$/.test(email)) {
+    if (!email.trim()) {
       setSubscribed(false);
+      setError('Please enter your email address.');
       return;
     }
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setSubscribed(false);
+      setError('Please enter a valid email address.');
+      return;
+    }
+    setError('');
     setSubscribed(true);
     setEmail('');
   };
@@ -75,11 +83,16 @@ export default function Footer() {
             type="email"
             placeholder="Enter Your Email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (error) setError('');
+              if (subscribed) setSubscribed(false);
+            }}
           />
           <button className="footer__subscribe" onClick={subscribe}>
             Subscribe
           </button>
+          {error && <p className="footer__error">{error}</p>}
           {subscribed && <p className="footer__ok">Subscribed!</p>}
         </div>
       </div>

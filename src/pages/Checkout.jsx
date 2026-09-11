@@ -36,7 +36,7 @@ export default function Checkout() {
   const [promoApplied, setPromoApplied] = useState(false);
   const navigate = useNavigate();
 
-  const promoDiscountPercent = promoApplied ? PROMO_CODES[form.promo?.toUpperCase()] || 0 : 0;
+  const promoDiscountPercent = promoApplied ? PROMO_CODES[form.promo] || 0 : 0;
   const promoValid = promoDiscountPercent > 0;
   const promoDiscountAmount = total * promoDiscountPercent;
   const finalTotal = total - promoDiscountAmount;

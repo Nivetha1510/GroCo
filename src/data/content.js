@@ -56,8 +56,8 @@ const REVIEW_TEXT =
 
 export const reviews = [
   { id: 1, name: 'John Deo', text: REVIEW_TEXT, avatar: avatar1, rating: 5 },
-  { id: 2, name: 'John Deo', text: REVIEW_TEXT, avatar: avatar2, rating: 5 },
-  { id: 3, name: 'John Deo', text: REVIEW_TEXT, avatar: avatar3, rating: 5 },
+  { id: 2, name: 'Sarah Miller', text: REVIEW_TEXT, avatar: avatar2, rating: 5 },
+  { id: 3, name: 'Michael Chen', text: REVIEW_TEXT, avatar: avatar3, rating: 5 },
 ];
 
 export const blogs = [

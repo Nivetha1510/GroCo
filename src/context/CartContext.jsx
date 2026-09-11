@@ -137,7 +137,7 @@ export function CartProvider({ children }) {
     const count = items.length;
     const subtotal = items.reduce((n, i) => n + i.price * toBaseQty(i), 0);
     const shipping = items.length ? SHIPPING_FEE : 0;
-    const discountPercent = coupon ? COUPON_CODES[coupon.toUpperCase()] || 0 : 0;
+    const discountPercent = coupon ? COUPON_CODES[coupon] || 0 : 0;
     const discountAmount = subtotal * discountPercent;
     return {
       items,

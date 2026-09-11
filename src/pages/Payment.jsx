@@ -22,7 +22,7 @@ export default function Payment() {
   const navigate = useNavigate();
   const paymentMethod = address.paymentOption || 'card';
 
-  const promoDiscountPercent = PROMO_CODES[address.promo?.toUpperCase()] || 0;
+  const promoDiscountPercent = PROMO_CODES[address.promo] || 0;
   const promoValid = promoDiscountPercent > 0;
   const promoDiscountAmount = total * promoDiscountPercent;
   const finalTotal = total - promoDiscountAmount;

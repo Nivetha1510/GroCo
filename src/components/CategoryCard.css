@@ -3,7 +3,15 @@
   height: var(--card-h);
   padding: 20px;
   background: var(--card-bg);
-  border: 1px solid var(--line-soft);
+  border: 8px solid transparent;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.category-card:hover {
+  border-color: var(--accent);
+  transform: scale(1.04);
+  box-shadow: 0 8px 24px rgba(254, 132, 75, 0.15);
 }
 
 .category-card__inner {
@@ -14,6 +22,11 @@
   padding: 20px 16px;
   border: 1px solid var(--line);
   text-align: center;
+  transition: border-color 0.3s ease;
+}
+
+.category-card:hover .category-card__inner {
+  border-color: transparent;
 }
 
 .category-card__media {
