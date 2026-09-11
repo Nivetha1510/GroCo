@@ -21,6 +21,11 @@
   transition: transform .15s ease;
 }
 .buy-card__heart:hover { transform: scale(1.12); }
+.buy-card__heart::before {
+  content: '';
+  position: absolute;
+  inset: -12px;
+}
 
 .buy-card__media {
   display: flex;

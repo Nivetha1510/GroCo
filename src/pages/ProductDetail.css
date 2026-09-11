@@ -156,6 +156,9 @@
   .pd__media { width: 100%; height: 280px; }
   .pd__info { padding-top: 0; }
   .pd__details { padding-left: 0; }
-  .pd__actions { gap: 12px; }
-  .pd__add, .pd__buy { flex: 1; }
+  .pd__actions { flex-direction: column; gap: 12px; }
+  .pd__add, .pd__buy { width: 100%; }
+  .pd__step-btn { width: 36px; height: 36px; }
+  .pd__stepper .unit-toggle { height: 40px; }
+  .pd__stepper .unit-toggle__btn { padding: 0 14px; }
 }

@@ -87,4 +87,5 @@
   .auth__card { padding: 28px 20px 34px; }
   .auth__avatar { width: 92px; height: 92px; margin-bottom: 44px; font-size: 34px; }
   .auth__label { font-size: 17px; }
+  .auth__submit { width: 100%; max-width: 220px; height: 44px; font-size: 14px; }
 }

@@ -66,6 +66,12 @@
   font-size: 19px;
   color: #1c1c1c;
 }
+/* enlarges the tap target on touch screens without widening the layout box */
+.header__icon::before {
+  content: '';
+  position: absolute;
+  inset: -9px;
+}
 
 .header__icon:hover { color: var(--accent-strong); }
 

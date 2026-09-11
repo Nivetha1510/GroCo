@@ -34,5 +34,5 @@
   color: var(--brand-green);
 }
 
-@media (max-width: 1200px) { .review-card { width: 100%; } }
+@media (max-width: 1439px) { .review-card { width: 100%; } }
 @media (max-width: 767px) { .review-card { height: auto; padding: 26px 20px; } }
