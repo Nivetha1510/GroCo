@@ -74,6 +74,10 @@ export default function Login() {
         {errors.password && <span className="field-error">{errors.password}</span>}
         {errors.form && <span className="field-error">{errors.form}</span>}
 
+        <p className="auth__foot" style={{ margin: '0 0 8px', textAlign: 'right' }}>
+          <Link to="/forgot-password" className="auth__link">Forgot Password?</Link>
+        </p>
+
         <button type="button" className="auth__submit" onClick={submit}>
           Log In
         </button>

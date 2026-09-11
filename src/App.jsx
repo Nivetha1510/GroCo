@@ -9,6 +9,7 @@ import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import ForgotPassword from './pages/ForgotPassword';
 import Search from './pages/Search';
 import BlogPost from './pages/BlogPost';
 import Checkout from './pages/Checkout';
@@ -33,6 +34,7 @@ export default function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/search" element={<Search />} />
         <Route path="/blog/:id" element={<BlogPost />} />
         <Route path="/checkout" element={<Checkout />} />

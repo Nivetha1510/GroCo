@@ -55,8 +55,31 @@ export function AuthProvider({ children }) {
 
   const logout = () => setUser(null);
 
+  const findAccount = (email) => {
+    const users = readUsers();
+    const match = users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+    if (!match) {
+      return { success: false, error: 'No account found with this email' };
+    }
+    return { success: true };
+  };
+
+  const resetPassword = (email, newPassword) => {
+    const users = readUsers();
+    const index = users.findIndex((u) => u.email.toLowerCase() === email.toLowerCase());
+    if (index === -1) {
+      return { success: false, error: 'No account found with this email' };
+    }
+    users[index] = { ...users[index], password: newPassword };
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    return { success: true };
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
+    <AuthContext.Provider value={{
+      user, login, register, logout, findAccount, resetPassword,
+    }}
+    >
       {children}
     </AuthContext.Provider>
   );
